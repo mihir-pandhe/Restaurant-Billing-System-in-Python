@@ -2,17 +2,17 @@ class RestaurantBillingSystem:
     def __init__(self):
         self.items = []
 
-    def add_item(self, name, price):
-        self.items.append((name, price))
+    def add_item(self, name, price, quantity):
+        self.items.append((name, price, quantity))
 
     def calculate_total(self):
-        total = sum(price for _, price in self.items)
+        total = sum(price * quantity for _, price, quantity in self.items)
         return total
 
     def display_bill(self):
         print("Itemized Bill:")
-        for name, price in self.items:
-            print(f"{name}: ${price:.2f}")
+        for name, price, quantity in self.items:
+            print(f"{name} (x{quantity}): ${price:.2f} each")
         print(f"Total: ${self.calculate_total():.2f}")
 
 
@@ -28,7 +28,8 @@ def main():
         if choice == "1":
             name = input("Enter item name: ")
             price = float(input("Enter item price: "))
-            billing_system.add_item(name, price)
+            quantity = int(input("Enter item quantity: "))
+            billing_system.add_item(name, price, quantity)
         elif choice == "2":
             billing_system.display_bill()
         elif choice == "3":
