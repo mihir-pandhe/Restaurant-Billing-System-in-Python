@@ -5,6 +5,15 @@ class RestaurantBillingSystem:
     def add_item(self, name, price, quantity):
         self.items.append((name, price, quantity))
 
+    def remove_item(self, name):
+        self.items = [item for item in self.items if item[0] != name]
+
+    def update_quantity(self, name, quantity):
+        for i, item in enumerate(self.items):
+            if item[0] == name:
+                self.items[i] = (name, item[1], quantity)
+                break
+
     def calculate_total(self):
         total = sum(price * quantity for _, price, quantity in self.items)
         return total
@@ -21,8 +30,10 @@ def main():
 
     while True:
         print("\n1. Add item to bill")
-        print("2. Display bill")
-        print("3. Exit")
+        print("2. Remove item from bill")
+        print("3. Update item quantity")
+        print("4. Display bill")
+        print("5. Exit")
         choice = input("Choose an option: ")
 
         if choice == "1":
@@ -31,8 +42,15 @@ def main():
             quantity = int(input("Enter item quantity: "))
             billing_system.add_item(name, price, quantity)
         elif choice == "2":
-            billing_system.display_bill()
+            name = input("Enter item name to remove: ")
+            billing_system.remove_item(name)
         elif choice == "3":
+            name = input("Enter item name to update: ")
+            quantity = int(input("Enter new item quantity: "))
+            billing_system.update_quantity(name, quantity)
+        elif choice == "4":
+            billing_system.display_bill()
+        elif choice == "5":
             break
         else:
             print("Invalid choice. Please try again.")
