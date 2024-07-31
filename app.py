@@ -24,6 +24,10 @@ class RestaurantBillingSystem:
             print(f"{name} (x{quantity}): ${price:.2f} each")
         print(f"Total: ${self.calculate_total():.2f}")
 
+    def display_summary(self):
+        print(f"Total number of items: {len(self.items)}")
+        print(f"Total bill amount: ${self.calculate_total():.2f}")
+
 
 def main():
     billing_system = RestaurantBillingSystem()
@@ -33,24 +37,35 @@ def main():
         print("2. Remove item from bill")
         print("3. Update item quantity")
         print("4. Display bill")
-        print("5. Exit")
+        print("5. Display summary")
+        print("6. Exit")
         choice = input("Choose an option: ")
 
         if choice == "1":
             name = input("Enter item name: ")
-            price = float(input("Enter item price: "))
-            quantity = int(input("Enter item quantity: "))
-            billing_system.add_item(name, price, quantity)
+            try:
+                price = float(input("Enter item price: "))
+                quantity = int(input("Enter item quantity: "))
+                billing_system.add_item(name, price, quantity)
+            except ValueError:
+                print(
+                    "Invalid input. Price should be a number and quantity should be an integer."
+                )
         elif choice == "2":
             name = input("Enter item name to remove: ")
             billing_system.remove_item(name)
         elif choice == "3":
             name = input("Enter item name to update: ")
-            quantity = int(input("Enter new item quantity: "))
-            billing_system.update_quantity(name, quantity)
+            try:
+                quantity = int(input("Enter new item quantity: "))
+                billing_system.update_quantity(name, quantity)
+            except ValueError:
+                print("Invalid input. Quantity should be an integer.")
         elif choice == "4":
             billing_system.display_bill()
         elif choice == "5":
+            billing_system.display_summary()
+        elif choice == "6":
             break
         else:
             print("Invalid choice. Please try again.")
